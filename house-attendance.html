@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>House Attendnce</title>
+        <title>Senate Attendnce</title>
         <!-- Font Awesome -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
@@ -44,7 +44,7 @@
                             aria-expanded="false">Attendance</a>
                         <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
                             <a class="dropdown-item active" href="house-attendance.html">House</a>
-                            <a class="dropdown-item" href="senate-attendance.html">Senate</a>
+                            <a class="dropdown-item " href="senate-attendance.html">Senate</a>
                         </div>
                     </li>
                     <li class="nav-item dropdown">
@@ -81,7 +81,7 @@
     
         <div class="container" >
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-6">
                 <h2>Attendance</h2>
                 <p>The Constitution specifies that a majority of members constitutes a quorum to do 
                     business in each house. Representatives and senators rarely force the presence of a 
@@ -93,7 +93,54 @@
                     members vote by electronic device. In the case of a tie, the motion in question fails. In the Senate, 
                     the Vice President may (if present) cast the tiebreaking vote.</p>
             </div>
-        </div>
+            <div class="col-md-6">
+                <h5>Senate at a glance</h5>
+                <table class=" table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Party</th>
+                            <th scope="col">Number of Reps</th>
+                            <th scope="col">% Voted with Prty</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody1">  
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>  
+        <hr width="100%">
+        <div class="row">
+            <div class="col-md-6">
+                <h5>Least Engaged (Bottom 10% Attendance)</h5>
+                <table class=" table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Number of Missed Votes</th>
+                            <th scope="col">% Missed</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody2">
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-6">
+                <h5>Most Engaged (Top 10% Attendance)</h5>
+                <table class=" table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Number of Missed Votes</th>
+                            <th scope="col">% Missed</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody3">
+                        
+                    </tbody>
+                </table>
+            </div>   
     </main>  
         
     <!-- Footer -->
@@ -136,7 +183,7 @@
   <!-- MDB core JavaScript -->
   <script type="text/javascript" src="js/mdb.min.js"></script>
   <script src="pro-congress-113-house.js"></script>
-  <script src="attendance-house.js"></script>
+  <script src="statistics.js"></script>
 </body>
 
 </html>
