@@ -10,22 +10,21 @@ function membersAvgCountByParty(item, party) {
     return (avg.toFixed(2));
 }
 
-function getStatistics(item, percentage, type, ascending) {
+function getStatistics(item, percentage, type, decending) {
     var arr = getlMembersBasedOnType(item, type, percentage)
-    arr.sort((lower, higher) => ((ascending) ? higher.second - lower.second : lower.second - higher.second));
+    arr.sort((lower, higher) => ((decending) ? higher.second - lower.second : lower.second - higher.second));
     var x = Math.round(arr.length * 10 / 100)
-    for (var j = 0; j < (arr.length - x); j++) {
-        if (arr[x - 1 + j] == arr[x - 1]) {
-            var s = x + j;
-        }
-    }
-    return (arr.slice(0, s))
+    var lastValue = arr[x - 1]
+
+    arr = arr.filter(value => (decending) ? value.second >= lastValue.second : value.second <= lastValue.second)
+
+    return arr
 }
 
 function getlMembersBasedOnType(item, type, percentage) {
     return item.map(member => ({
-        first: member.first_name + member.last_name,
-        second: (member.missed_votes * ((type === "loyal") ? member[percentage] / 100 : 1)).toFixed(0),
+        first: member.first_name + ' ' + member.last_name,
+        second: parseInt(member.missed_votes * ((type === "loyal") ? member[percentage] / 100 : 1)),
         third: member[percentage]
     }));
 }
