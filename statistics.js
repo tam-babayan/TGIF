@@ -1,128 +1,81 @@
-// returns the total number of parties
-function countNumber(item, party) {
-    var numberArray = [];
-    for (var i = 0; i < item[0].members.length; i++) {
-        if (item[0].members[i].party == party) {
-            numberArray.push(item[0].members[i].first_name + " " + item[0].members[i].last_name)
-        }  
-    }
-    return numberArray.length;
+function membersCountByParty(item, party) {
+    return item.members.filter(member => member.party === party).length
 }
 
-// returns average number of votes with parties
-function countAverage (item, party) {
-    var averageArray = [];
-    var sum = 0;
-    for (var i = 0; i < item[0].members.length; i++) {
-        if (item[0].members[i].party == party) {
-            averageArray.push(item[0].members[i].votes_with_party_pct)
-        }  
-    }
-    for (j = 0; j < averageArray.length; j++) {
-        sum += averageArray[j];
-    } 
-    var avg = sum / averageArray.length
-    return avg.toFixed(2);
+function membersAvgCountByParty(item, party) {
+    var arr = item.members
+        .filter(member => member.party === party)
+        .map(member => member.votes_with_party_pct)
+    var avg = arr.reduce((a, b) => a + b, 0) / arr.length
+    return (avg.toFixed(2));
 }
 
-function least(item, element1, element2, element3, element4) {
-    var arr = [];
-    for (var i = 0; i < item.length; i++) {
-        arr.push({
-            "first": item[i][element1] + " " + item[i][element2],
-            "second": item[i][element3],
-            "third": item[i][element4]
-        });
-    }
-    arr.sort(function(a, b) {
-        // Ascending: first age less than the previous
-        return b.second - a.second;
-    });
-    var x = Math.round(arr.length * 10 /100)
+function getStatistics(item, percentage, type, ascending) {
+    var arr = getlMembersBasedOnType(item, type, percentage)
+    arr.sort((lower, higher) => ((ascending) ? higher.second - lower.second : lower.second - higher.second));
+    var x = Math.round(arr.length * 10 / 100)
     for (var j = 0; j < (arr.length - x); j++) {
-        if (arr[x-1+j] == arr[x-1]) {
+        if (arr[x - 1 + j] == arr[x - 1]) {
             var s = x + j;
         }
     }
-    console.log(s)
-    return arr.slice(0, s)
+    return (arr.slice(0, s))
 }
 
-function most(item, element1, element2, element3, element4) {
-    var arr = [];
-    for (var i = 0; i < item.length; i++) {
-        arr.push({
-            "first": item[i][element1] + " " + item[i][element2],
-            "second": item[i][element3],
-            "third": item[i][element4]
-        });
-    }
-    arr = arr.sort(function(a, b) {
-        return  a.second - b.second;
-    });
-    var x = Math.round(arr.length * 10 /100)
-    for (var j = 0; j < (arr.length - x); j++) {
-        if (arr[x-1+j] == arr[x-1]) {
-            var s = x + j;
-        }
-    }
-    console.log(s)
-    return arr.slice(0, s)
+function getlMembersBasedOnType(item, type, percentage) {
+    return item.map(member => ({
+        first: member.first_name + member.last_name,
+        second: (member.missed_votes * ((type === "loyal") ? member[percentage] / 100 : 1)).toFixed(0),
+        third: member[percentage]
+    }));
 }
 
-var statistics = 
-{
-    "Republicants" : countNumber(data.results, "R"),
-    "Democrats" : countNumber(data.results, "D"),
-    "Independents" : countNumber(data.results, "I"),
-
-    "Republicants_Voted_With_Party" : countAverage(data.results, "R"),
-    "Democrats_Voted_With_Party" : countAverage(data.results, "D"),
-    "Independents_Voted_With_Party" : countAverage(data.results, "I"),
-
-    "leastEngaged": least(data.results[0].members, "first_name", "last_name", "missed_votes", "missed_votes_pct"),
-    "mostEngaged": most(data.results[0].members, "first_name", "last_name", "missed_votes", "missed_votes_pct"),
-
-    "leastLoyal": least(data.results[0].members, "first_name", "last_name", "total_votes", "votes_with_party_pct"),
-    "mostLoyal": most(data.results[0].members, "first_name", "last_name", "total_votes", "votes_with_party_pct"),
-
-}
-console.log(JSON.stringify(statistics))
-
-var firstCell = 0;
-var secondCell = 1;
-var thirdCell = 2;
-buildTable1(firstCell, statistics.Republicants, statistics.Republicants_Voted_With_Party);
-buildTable1(secondCell, statistics.Democrats, statistics.Democrats_Voted_With_Party);
-buildTable1(thirdCell, statistics.Independents, statistics.Independents_Voted_With_Party);
-
-
-buildTable2('#tbody5', statistics.leastLoyal);
-buildTable2('#tbody4', statistics.mostLoyal); 
-buildTable2('#tbody2', statistics.leastEngaged);
-buildTable2('#tbody3', statistics.mostEngaged);
-
-
-
-function buildTable1(index, value1, value2) {
+function buildCounterTable(partyName, value1, value2) {
     var myTable = document.querySelector('#tbody1')
     var newRow = document.createElement('tr')
-    newRow.insertCell(0).innerHTML = Object.keys(statistics)[index];
+    newRow.insertCell(0).innerHTML = partyName;
     newRow.insertCell(1).innerHTML = value1;
     newRow.insertCell(2).innerHTML = value2 + "%";
     myTable.append(newRow);
 }
 
-function buildTable2(body, item) {
+function buildStatisticsTable(body, item) {
     var myTable = document.querySelector(body)
     if (myTable == null) {
         return
     }
     for (var i = 0; i < item.length; i++) {
         var newRow = document.createElement('tr')
-        newRow.insertCell(0).innerHTML =  item[i].first;
-        newRow.insertCell(1).innerHTML =  item[i].second;
+        newRow.insertCell(0).innerHTML = item[i].first;
+        newRow.insertCell(1).innerHTML = item[i].second;
         newRow.insertCell(2).innerHTML = item[i].third + "%";
         myTable.append(newRow);
-    }    
+    }
 }
+
+(function main() {
+    var statistics = {
+        "Republicants": membersCountByParty(data.results[0], "R"),
+        "Democrats": membersCountByParty(data.results[0], "D"),
+        "Independents": membersCountByParty(data.results[0], "I"),
+
+        "Republicants_Voted_With_Party": membersAvgCountByParty(data.results[0], "R"),
+        "Democrats_Voted_With_Party": membersAvgCountByParty(data.results[0], "D"),
+        "Independents_Voted_With_Party": membersAvgCountByParty(data.results[0], "I"),
+
+        "leastEngaged": getStatistics(data.results[0].members, "missed_votes_pct", "engaged", true),
+        "mostEngaged": getStatistics(data.results[0].members, "missed_votes_pct", "engaged", false),
+
+        "leastLoyal": getStatistics(data.results[0].members, "votes_with_party_pct", "loyal", true),
+        "mostLoyal": getStatistics(data.results[0].members, "votes_with_party_pct", "loyal", false),
+    }
+
+
+    buildCounterTable("Republicants", statistics.Republicants, statistics.Republicants_Voted_With_Party);
+    buildCounterTable("Democrats", statistics.Democrats, statistics.Democrats_Voted_With_Party);
+    buildCounterTable("Independents", statistics.Independents, statistics.Independents_Voted_With_Party);
+    buildStatisticsTable('#tbody5', statistics.leastLoyal);
+    buildStatisticsTable('#tbody4', statistics.mostLoyal);
+    buildStatisticsTable('#tbody2', statistics.leastEngaged);
+    buildStatisticsTable('#tbody3', statistics.mostEngaged);
+})()

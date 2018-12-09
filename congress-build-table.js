@@ -1,12 +1,9 @@
-buildTable()
-activateEventListeners()
-
 function buildTable() {
     var myTable = document.querySelector('#tbody')
     var stateValue = document.querySelector('#stateSelect').value
 
     //mapping the values checked
-    var checkboxesCheckedValue = Array.from(document.querySelectorAll('input[name=party]:checked')).map(function(input){
+    var checkboxesCheckedValue = Array.from(document.querySelectorAll('input[name=party]:checked')).map(function (input) {
         return input.value
     })
 
@@ -17,7 +14,7 @@ function buildTable() {
         //If both vars return true, the member is included in this array.
         return stateFilterValue && genderFilterValue
     })
-    console.log(filteredMembersArray)
+
     myTable.innerHTML = ''
     //For every member in the filteredMembers array. Create a row and all cells
     filteredMembersArray.forEach(member => {
@@ -31,11 +28,15 @@ function buildTable() {
         myTable.append(newRow);
     })
 }
-function activateEventListeners(){
+
+function activateEventListeners() {
     document.getElementById('Republican').addEventListener('change', buildTable)
     document.getElementById('Democrat').addEventListener('change', buildTable)
     document.getElementById('Independent').addEventListener('change', buildTable)
     document.getElementById('stateSelect').addEventListener('change', buildTable)
 }
 
-  
+(function manin() {
+    buildTable()
+    activateEventListeners()
+})()
