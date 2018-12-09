@@ -52,7 +52,7 @@ function buildStatisticsTable(body, item) {
     }
 }
 
-(function main() {
+function buildTables(data) {
     var statistics = {
         "Republicants": membersCountByParty(data.results[0], "R"),
         "Democrats": membersCountByParty(data.results[0], "D"),
@@ -77,4 +77,23 @@ function buildStatisticsTable(body, item) {
     buildStatisticsTable('#tbody4', statistics.mostLoyal);
     buildStatisticsTable('#tbody2', statistics.leastEngaged);
     buildStatisticsTable('#tbody3', statistics.mostEngaged);
-})()
+}
+
+function render(url) {
+    fetch(url, {
+        method: "GET",
+        headers: new Headers({
+            "X-API-Key": "N1JQgCXPBQCq7lYC6bTApOnHARZZ8yEKol1jfSqt"
+        })
+    }).then(function (response) {
+        if (response.ok) {
+            return response.json();
+        }
+        throw new Error(response.statusText);
+    }).then(function (data) {
+        buildTables(data)
+        
+    }).catch(function (error) {
+        console.log(error)
+    });
+}

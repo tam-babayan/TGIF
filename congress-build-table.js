@@ -1,4 +1,4 @@
-function buildTable() {
+function buildTable(data) {
     var myTable = document.querySelector('#tbody')
     var stateValue = document.querySelector('#stateSelect').value
 
@@ -36,7 +36,26 @@ function activateEventListeners() {
     document.getElementById('stateSelect').addEventListener('change', buildTable)
 }
 
-(function manin() {
-    buildTable()
-    activateEventListeners()
-})()
+// (function manin() {
+//     buildTable(data)
+//     activateEventListeners()
+// })()
+
+function render(url) {
+    fetch(url, {
+        method: "GET",
+        headers: new Headers({
+            "X-API-Key": "N1JQgCXPBQCq7lYC6bTApOnHARZZ8yEKol1jfSqt"
+        })
+    }).then(function (response) {
+        if (response.ok) {
+            return response.json();
+        }
+        throw new Error(response.statusText);
+    }).then(function (data) {
+        buildTables(data)
+        
+    }).catch(function (error) {
+        console.log(error)
+    });
+}
