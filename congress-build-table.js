@@ -36,11 +36,6 @@ function activateEventListeners() {
     document.getElementById('stateSelect').addEventListener('change', buildTable)
 }
 
-// (function manin() {
-//     buildTable(data)
-//     activateEventListeners()
-// })()
-
 function render(url) {
     fetch(url, {
         method: "GET",
@@ -53,7 +48,7 @@ function render(url) {
         }
         throw new Error(response.statusText);
     }).then(function (data) {
-        buildTables(data)
+        buildTable(data)
         
     }).catch(function (error) {
         console.log(error)
