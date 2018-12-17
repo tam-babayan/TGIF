@@ -30,10 +30,10 @@ function buildTable(data) {
 }
 
 function activateEventListeners() {
-    document.getElementById('Republican').addEventListener('change', buildTable)
-    document.getElementById('Democrat').addEventListener('change', buildTable)
-    document.getElementById('Independent').addEventListener('change', buildTable)
-    document.getElementById('stateSelect').addEventListener('change', buildTable)
+    document.getElementById('Republican').addEventListener('change', buildTable(data))
+    document.getElementById('Democrat').addEventListener('change', buildTable(data))
+    document.getElementById('Independent').addEventListener('change', buildTable(data))
+    document.getElementById('stateSelect').addEventListener('change', buildTable(data))
 }
 
 function render(url) {

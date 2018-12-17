@@ -26,7 +26,7 @@ header,
 .view {
   height: 100%;
 }
-.btn-link a:link{
+.btn-link a:link {
     color: blue;
 }
 
@@ -51,4 +51,7 @@ h1 {
 }
 .input-group-text {
     background-color: rgba(59, 146, 194, 0.1)
+}
+.bold {
+    font-weight: bold;
 }
