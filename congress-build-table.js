@@ -10,9 +10,9 @@ function buildTable(data) {
     //Array witn only the members that accomplish the values inside the filter method
     var filteredMembersArray = data.results[0].members.filter(member => {
         var stateFilterValue = stateValue == "All" || stateValue == member.state
-        var genderFilterValue = checkboxesCheckedValue.length == 0 || checkboxesCheckedValue.includes(member.party)
+        var partyFilterValue = checkboxesCheckedValue.length == 0 || checkboxesCheckedValue.includes(member.party)
         //If both vars return true, the member is included in this array.
-        return stateFilterValue && genderFilterValue
+        return stateFilterValue && partyFilterValue
     })
 
     myTable.innerHTML = ''
@@ -30,10 +30,10 @@ function buildTable(data) {
 }
 
 function activateEventListeners() {
-    document.getElementById('Republican').addEventListener('change', buildTable(data))
-    document.getElementById('Democrat').addEventListener('change', buildTable(data))
-    document.getElementById('Independent').addEventListener('change', buildTable(data))
-    document.getElementById('stateSelect').addEventListener('change', buildTable(data))
+    document.getElementById('Republican').addEventListener('change', buildTable)
+    document.getElementById('Democrat').addEventListener('change', buildTable)
+    document.getElementById('Independent').addEventListener('change', buildTable)
+    document.getElementById('stateSelect').addEventListener('change', buildTable)
 }
 
 function render(url) {
