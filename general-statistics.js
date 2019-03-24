@@ -6,7 +6,7 @@ function membersAvgCountByParty(item, party) {
     var arr = item.members
         .filter(member => member.party === party)
         .map(member => member.votes_with_party_pct)
-    var avg = arr.reduce((a, b) => a + b, 0) / arr.length
+    var avg = arr.length ? arr.reduce((a, b) => a + b, 0) / arr.length : 0
     return (avg.toFixed(2));
 }
 
@@ -92,7 +92,7 @@ function render(url) {
         throw new Error(response.statusText);
     }).then(function (data) {
         buildTables(data)
-        
+
     }).catch(function (error) {
         console.log(error)
     });
